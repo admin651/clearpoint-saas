@@ -1,0 +1,14 @@
+*{box-sizing:border-box}
+body{font-family:Arial,Helvetica,sans-serif;margin:0;background:#f8fafc;color:#0f172a}
+.header{background:#008080;color:#fff;text-align:center;padding:28px 16px}
+.container{max-width:1100px;margin:20px auto;padding:0 16px}
+.card{background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:18px;margin-bottom:16px}
+h1,h2{margin:0 0 12px}
+label{display:block;font-size:14px;margin-bottom:6px;color:#334155}
+input[type="file"],input[name]{width:100%;padding:10px;border:1px solid #cbd5e1;border-radius:8px}
+button,.button{background:#1A1A66;color:#fff;border:none;border-radius:8px;padding:10px 16px;cursor:pointer;text-decoration:none;display:inline-block;margin-top:12px}
+.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+.row{border-top:1px solid #e5e7eb;padding:12px 0}
+pre{background:#0f172a;color:#e2e8f0;padding:14px;border-radius:8px;overflow:auto}
+.footer{text-align:center;color:#64748b;font-size:14px;padding:24px}
+@media (max-width:820px){.grid{grid-template-columns:1fr}}

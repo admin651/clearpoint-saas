@@ -1,0 +1,64 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ClearPoint Dashboard</title>
+  <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+  <header class="header">
+    <h1>ClearPoint Data Services</h1>
+    <p>Welcome, {{ user.name }} — Accuracy You Can Trust</p>
+  </header>
+  <main class="container">
+    <section class="card">
+      <h2>Upload a CSV</h2>
+      <form id="uploadForm">
+        <div class="grid">
+          <div><label>CSV File</label><input type="file" name="file" accept=".csv" required></div>
+          <div><label>Email Columns</label><input name="email_columns" value="email"></div>
+          <div><label>Phone Columns</label><input name="phone_columns" value="phone"></div>
+          <div><label>Dedupe Keys</label><input name="key_columns" value="email,phone"></div>
+        </div>
+        <button type="submit">Run Cleanup</button>
+      </form>
+    </section>
+
+    <section class="card">
+      <h2>My Jobs</h2>
+      <div id="jobs"></div>
+    </section>
+  </main>
+  <footer class="footer">&copy; 2025 ClearPoint Data Services</footer>
+<script>
+async function fetchJobs(){
+  const token = localStorage.getItem('token');
+  const res = await fetch('/jobs/list', { headers: { 'Authorization': 'Bearer ' + token }});
+  const data = await res.json();
+  const el = document.getElementById('jobs');
+  el.innerHTML = (data || []).map(j => `
+    <div class="row">
+      <strong>${j.filename}</strong> — <em>${new Date(j.created_at).toLocaleString()}</em>
+      <div><a class="button" href="/jobs/${j.id}/download" target="_blank">Download CSV</a>
+           <a class="button" href="/jobs/${j.id}/report.pdf" target="_blank">PDF Report</a></div>
+      <pre>${JSON.stringify(j.summary, null, 2)}</pre>
+    </div>
+  `).join('');
+}
+document.getElementById('uploadForm').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const token = localStorage.getItem('token') || prompt('Paste your Bearer token (from /auth/token):');
+  localStorage.setItem('token', token);
+  const form = e.target;
+  const fd = new FormData(form);
+  const res = await fetch('/jobs/upload', { method:'POST', headers: { 'Authorization': 'Bearer ' + token }, body: fd });
+  const json = await res.json();
+  alert('Uploaded. Summary in console.');
+  console.log(json);
+  fetchJobs();
+});
+fetchJobs();
+</script>
+</body>
+</html>

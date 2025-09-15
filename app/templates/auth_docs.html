@@ -1,0 +1,30 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Auth Quickstart</title>
+  <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+  <div class="container">
+    <h1>Auth Quickstart</h1>
+    <p>Use the following endpoints to create your first user and log in.</p>
+    <pre>
+POST /auth/register
+{
+  "email": "you@example.com",
+  "name": "Your Name",
+  "password": "choose_a_strong_password"
+}
+
+POST /auth/token (form-data)
+  username: you@example.com
+  password: choose_a_strong_password
+
+GET /auth/me (with Bearer token)
+    </pre>
+    <p>Then use your token to upload and process jobs at <code>/jobs/upload</code> and list them at <code>/jobs/list</code>.</p>
+  </div>
+</body>
+</html>
